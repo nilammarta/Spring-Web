@@ -5,44 +5,31 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HelloControllerTest {
+public class FromControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    void helloGuest() throws Exception {
+    void formHello() throws Exception {
         mockMvc.perform(
-            get("/hello")
+                post("/form/hello")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", "Karinz")
         ).andExpectAll(
                 status().isOk(),
-                content().string(Matchers.containsString("Hello Guest!"))
-        );
-    }
-
-    @Test
-    void helloName() throws Exception {
-        mockMvc.perform(
-            get("/hello").queryParam("name", "Karinz")
-        ).andExpectAll(
-                status().isOk(),
+                header().string(HttpHeaders.CONTENT_TYPE, Matchers.containsString(MediaType.TEXT_HTML_VALUE)),
                 content().string(Matchers.containsString("Hello Karinz!"))
-        );
-    }
-
-
-    @Test
-    void helloPost() throws Exception {
-        mockMvc.perform(
-            post("/hello").queryParam("name", "Karinz")
-        ).andExpectAll(
-                status().isMethodNotAllowed()
         );
     }
 }

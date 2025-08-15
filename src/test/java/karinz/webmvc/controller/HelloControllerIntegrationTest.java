@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class HelloControllerIntegrationTest {
@@ -18,13 +19,14 @@ public class HelloControllerIntegrationTest {
 
     @Test
     void helloGuest() {
-        String response = restTemplate.getForEntity("http://localhost:" + port + "/hello", String.class).getBody();
+        ResponseEntity<String> responseEntity = this.restTemplate.getForEntity("http://localhost:" + port + "/hello", String.class);
+        String response = responseEntity.getBody();
         Assertions.assertNotNull(response);
         Assertions.assertEquals("Hello Guest!", response.trim());
     }
 
     @Test
-    void halloEko() {
+    void halloKarin() {
         String response = restTemplate.getForEntity("http://localhost:" + port + "/hello?name=Karin", String.class).getBody();
         Assertions.assertNotNull(response);
         Assertions.assertEquals("Hello Karin!", response.trim());
