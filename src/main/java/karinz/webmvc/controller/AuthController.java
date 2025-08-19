@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,7 +33,13 @@ public class AuthController {
 
     }
 
-    public ResponseEntity<String> getUser(@CookieValue("username") String username){
+    @GetMapping(path = "/auth/user")
+    public ResponseEntity<String> getUser(
+            /**
+             * Untuk menambahkan cookie, dapat menggunakan annotation @CookieValue("nama_cookie")
+             */
+            @CookieValue("username") String username
+    ){
         return ResponseEntity.ok("Hello " + username);
     }
 }
