@@ -59,7 +59,7 @@ public class PersonControllerTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("middleName", "Maria")
                         .param("lastName", "Muren")
-                        .param("email", "karin@gmail.com")
+//                        .param("email", "karin@gmail.com")
                         .param("phone", "08123456789")
                         .param("address.street", "Jalan Raya No. 1")
                         .param("address.city", "Jakarta")
@@ -77,7 +77,7 @@ public class PersonControllerTest {
 
         ).andExpectAll(
                 status().isBadRequest(),
-                content().string(Matchers.containsString("Validation Error"))
+                content().string(Matchers.containsString("You send invalid data"))
         );
     }
 }
