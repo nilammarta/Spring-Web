@@ -12,28 +12,24 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PartnerControllerTest {
+public class StaticResourceTest {
+
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Ketika menjalankan aplikasi, Spring Boot secara otomatis mengkonfigurasi
+     * atau mencari file controller, jika tidak ditemukan maka akan mencari
+     * file statis di dalam folder src/main/resources/static.
+     * @throws Exception
+     */
     @Test
-    void getPartner() throws Exception {
+    void testStatic() throws Exception {
         mockMvc.perform(
-                get("/partner/current")
-                        .header("X-API-KEY", "SAMPLE")
+                get("index.html") // Mengakses file statis index.html
         ).andExpectAll(
                 status().isOk(),
-                content().string(Matchers.containsString("SAMPLE : Sample Partner"))
+                content().string(Matchers.containsString("Hello Static"))
         );
     }
-
-//    @Test
-//    void getPartnerError() throws Exception {
-//        mockMvc.perform(
-//                get("/partner/current")
-//        ).andExpectAll(
-//                // Karena tidak ada header X-API-KEY, maka akan throw RuntimeException
-//                status().is5xxServerError()
-//        );
-//    }
 }

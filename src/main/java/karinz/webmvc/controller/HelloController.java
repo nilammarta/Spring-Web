@@ -6,8 +6,11 @@ import karinz.webmvc.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Untuk menjadikan class ini sebagai controller, perlu di tambahakan @Controller annotation.
@@ -34,8 +37,28 @@ public class HelloController {
         // Karena kita menggunakan @RequestParam, maka kita bisa mendapatkan parameter name dari request.
         // Sehingga bagian ini tidak perlu
 //        String name = request.getParameter("name");
+
         String responseBody = helloService.hello(name);
         // Mengembalikan nama view yang akan ditampilkan
         response.getWriter().println(responseBody);
+    }
+
+    @GetMapping(path = "/web/hello")
+    public ModelAndView hello(@RequestParam(name = "name", required = false) String name) {
+
+        /**
+         * Melakukan redirect ke halaman lain
+         */
+        if (Objects.isNull(name)) {
+            return new ModelAndView("redirect:/hello?name=Guest");
+        }
+
+        /**
+         * ModelAndView adalah class yang digunakan untuk mengembalikan view dan model
+         */
+       return new ModelAndView("hello", Map.of(
+               "title", "Belajar View",
+               "name", name
+       ));
     }
 }

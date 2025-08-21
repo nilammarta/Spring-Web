@@ -45,4 +45,28 @@ public class HelloControllerTest {
                 status().isMethodNotAllowed()
         );
     }
+
+    @Test
+    void helloView() throws Exception {
+        mockMvc.perform(
+                get("/web/hello").queryParam("name", "Karinz")
+        ).andExpectAll(
+                status().isOk(),
+                content().string(Matchers.containsString("Belajar View")),
+                content().string(Matchers.containsString("Hello Karinz"))
+        );
+    }
+
+    /**
+     * Test untuk menguji redirect pada controller.
+     * @throws Exception
+     */
+    @Test
+    void helloViewRedirect() throws Exception {
+        mockMvc.perform(
+                get("/web/hello")
+        ).andExpectAll(
+                status().is3xxRedirection()
+        );
+    }
 }
